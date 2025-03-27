@@ -5,6 +5,12 @@ services:
       - blacklists_db
     ports:
       - "5000:5000"
+    environment:
+      DB_NAME: blacklists_db
+      DB_USER: postgres
+      DB_PASSWORD: example
+      DB_PORT: 5432
+      DB_HOST: blacklists_db
     networks:
       - app_net
 
