@@ -1,6 +1,8 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from dotenv import load_dotenv
+from .errors.errors import ApiError
+from .model.blacklist import NewBlacklistJsonSchema
 loaded = load_dotenv('.env.development')
 from .model.db import init_db
 
@@ -15,4 +17,11 @@ def ping():
 
 @app.post("/blacklists")
 def add_email():
+    json = request.get_json()
+    NewBlacklistJsonSchema.check(json)
     return jsonify({ 'message': 'Cuenta creada exitosamente.' }), 200
+
+@app.errorhandler(ApiError)
+def handle_exception(err):
+    response = { 'message': err.description }
+    return jsonify(response), err.code
