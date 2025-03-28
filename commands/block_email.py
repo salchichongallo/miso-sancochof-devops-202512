@@ -5,9 +5,10 @@ from ..errors.errors import DuplicatedEmailError
 
 
 class BlockEmailCommand:
-    def __init__(self, email, app_uuid, blocked_reason=None):
+    def __init__(self, email, app_uuid, ip, blocked_reason=None):
         self.email = email
         self.app_uuid = app_uuid
+        self.ip = ip
         self.blocked_reason = blocked_reason
 
     def execute(self):
@@ -15,7 +16,7 @@ class BlockEmailCommand:
             email=self.email,
             app_uuid=self.app_uuid,
             blocked_reason=self.blocked_reason,
-            ip='127.0.0.1',  # TODO: Get the IP
+            ip=self.ip,
         )
         db.session.add(blacklist)
         try:
