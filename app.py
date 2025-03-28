@@ -24,6 +24,7 @@ def add_email():
     block_email = BlockEmailCommand(
         email=json['email'],
         app_uuid=json['app_uuid'],
+        ip=request.remote_addr,
         blocked_reason=json.get('blocked_reason') or None,
     )
     data = block_email.execute()
