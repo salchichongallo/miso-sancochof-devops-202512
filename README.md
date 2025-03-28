@@ -4,6 +4,8 @@
 
 Requisitos: Python 3.10 o superior
 
+### En local
+
 1. Crear un entorno virtual:
 
 ```sh
@@ -22,10 +24,22 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-4. Levantar aplicación:
+4. Crear variable de entorno
+
+Copie el archivo `.env.template` y renómbrelo `.env.development`. Luego asigne los valores.
+
+5. Levantar aplicación:
 
 ```sh
 flask run
+```
+
+#### Desde Docker
+
+1. Iniciar servicios
+
+```sh
+docker compose up
 ```
 
 #### Integrantes
