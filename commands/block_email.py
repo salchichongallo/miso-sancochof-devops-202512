@@ -1,0 +1,19 @@
+from ..model.db import db
+from ..model.blacklist import Blacklist
+
+
+class BlockEmailCommand:
+    def __init__(self, email, app_uuid, blocked_reason=None):
+        self.email = email
+        self.app_uuid = app_uuid
+        self.blocked_reason = blocked_reason
+
+    def execute(self):
+        blacklist = Blacklist(
+            email=self.email,
+            app_uuid=self.app_uuid,
+            blocked_reason=self.blocked_reason,
+            ip='127.0.0.1',  # TODO: Get the IP
+        )
+        db.session.add(blacklist)
+        db.session.commit()
