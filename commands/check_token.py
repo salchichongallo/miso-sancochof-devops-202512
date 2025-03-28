@@ -1,6 +1,6 @@
 import os
 from flask import request
-from ..errors.errors import TokenNotProvidedError, InvalidTokenError
+from ..errors.errors import ApiError, TokenNotProvidedError, InvalidTokenError
 
 
 class CheckTokenCommand:
@@ -19,7 +19,10 @@ class CheckTokenCommand:
 
     @staticmethod
     def get_app_token():
-        token = os.getenv('APP_TOKEN') or None
+        token = os.getenv('SECRET_TOKEN') or None
         if not token:
-            raise Exception('APP_TOKEN not set in environment variables.')
+            error = ApiError()
+            error.code = 500
+            error.description = 'SECRET_TOKEN not set in environment variables.'
+            raise error
         return token
