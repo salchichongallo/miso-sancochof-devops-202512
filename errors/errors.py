@@ -13,3 +13,8 @@ class ParamError(ApiError):
     def first_from(messages):
         (field, validations) = list(messages.items())[0]
         return ParamError(f"{field}: {validations[0]}")
+
+
+class DuplicatedEmailError(ApiError):
+    code = 409
+    description = "Email already exists in the blacklist"

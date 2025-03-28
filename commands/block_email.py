@@ -1,5 +1,7 @@
+from sqlalchemy.exc import IntegrityError
 from ..model.db import db
 from ..model.blacklist import Blacklist
+from ..errors.errors import DuplicatedEmailError
 
 
 class BlockEmailCommand:
@@ -16,7 +18,10 @@ class BlockEmailCommand:
             ip='127.0.0.1',  # TODO: Get the IP
         )
         db.session.add(blacklist)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError:
+            raise DuplicatedEmailError()
         return {
             'id': str(blacklist.id),
             'email': blacklist.email,
