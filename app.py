@@ -26,8 +26,8 @@ def add_email():
         app_uuid=json['app_uuid'],
         blocked_reason=json.get('blocked_reason') or None,
     )
-    block_email.execute()
-    return jsonify({ 'message': 'Cuenta creada exitosamente.' }), 200
+    data = block_email.execute()
+    return jsonify({ 'message': 'Cuenta creada exitosamente.', 'data': data }), 200
 
 @app.errorhandler(ApiError)
 def handle_exception(err):

@@ -17,3 +17,11 @@ class BlockEmailCommand:
         )
         db.session.add(blacklist)
         db.session.commit()
+        return {
+            'id': str(blacklist.id),
+            'email': blacklist.email,
+            'app_uuid': blacklist.app_uuid,
+            'blocked_reason': blacklist.blocked_reason,
+            'ip': blacklist.ip,
+            'created_at': blacklist.createdAt.isoformat(),
+        }
