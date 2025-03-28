@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from dotenv import load_dotenv
 
+from .commands.check_token import CheckTokenCommand
 from .commands.block_email import BlockEmailCommand
 from .errors.errors import ApiError
 from .model.blacklist import NewBlacklistJsonSchema
@@ -19,6 +20,7 @@ def ping():
 
 @app.post("/blacklists")
 def add_email():
+    CheckTokenCommand.execute()
     json = request.get_json()
     NewBlacklistJsonSchema.check(json)
     block_email = BlockEmailCommand(
