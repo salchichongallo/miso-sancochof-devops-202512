@@ -11,6 +11,7 @@ services:
       DB_PASSWORD: example
       DB_PORT: 5432
       DB_HOST: blacklists_db
+      SECRET_TOKEN: qwerty
     networks:
       - app_net
 

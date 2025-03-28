@@ -18,3 +18,13 @@ class ParamError(ApiError):
 class DuplicatedEmailError(ApiError):
     code = 409
     description = "No se pudo crear la cuenta. Está duplicado el email."
+
+
+class TokenNotProvidedError(ApiError):
+    code = 403
+    description = 'Token not provided.'
+
+
+class InvalidTokenError(ApiError):
+    code = 401
+    description = 'Invalid token.'
