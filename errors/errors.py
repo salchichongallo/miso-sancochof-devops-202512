@@ -17,4 +17,4 @@ class ParamError(ApiError):
 
 class DuplicatedEmailError(ApiError):
     code = 409
-    description = "Email already exists in the blacklist"
+    description = "No se pudo crear la cuenta. Está duplicado el email."
