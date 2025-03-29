@@ -25,3 +25,13 @@ class NewBlacklistJsonSchema(Schema):
             NewBlacklistJsonSchema().load(json)
         except ValidationError as exception:
             raise ParamError.first_from(exception.messages)
+
+class ValidateEmailJsonSchema(Schema):
+    email = fields.Email(required=True, validate=validate.Length(max=255))
+
+    @staticmethod
+    def check(json):
+        try:
+            ValidateEmailJsonSchema().load(json)
+        except ValidationError as exception:
+            raise ParamError.first_from(exception.messages)
