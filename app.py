@@ -5,8 +5,9 @@ from dotenv import load_dotenv
 from .commands.check_token import CheckTokenCommand
 from .commands.block_email import BlockEmailCommand
 from .commands.reset_data import ResetData
+from .commands.verify_email import CheckEmailCommand
 from .errors.errors import ApiError
-from .model.blacklist import NewBlacklistJsonSchema
+from .model.blacklist import NewBlacklistJsonSchema, ValidateEmailJsonSchema
 loaded = load_dotenv('.env.development')
 from .model.db import init_db
 
@@ -32,6 +33,13 @@ def add_email():
     )
     data = block_email.execute()
     return jsonify({ 'message': 'Cuenta creada exitosamente.', 'data': data }), 200
+
+@app.route("/blacklists/<string:email>", methods=["GET"])
+def check_blacklist(email):
+    CheckTokenCommand.execute()
+    ValidateEmailJsonSchema.check({'email': email})
+    response = CheckEmailCommand(email).execute()
+    return jsonify(response), 200
 
 
 @app.route("/reset", methods=["DELETE"])
