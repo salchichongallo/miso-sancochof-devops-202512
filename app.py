@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 from .commands.check_token import CheckTokenCommand
 from .commands.block_email import BlockEmailCommand
+from .commands.reset_data import ResetData
 from .errors.errors import ApiError
 from .model.blacklist import NewBlacklistJsonSchema
 loaded = load_dotenv('.env.development')
@@ -31,6 +32,12 @@ def add_email():
     )
     data = block_email.execute()
     return jsonify({ 'message': 'Cuenta creada exitosamente.', 'data': data }), 200
+
+
+@app.route("/reset", methods=["DELETE"])
+def reset():
+    ResetData().execute()
+    return jsonify({ 'message': 'Todos los datos han sido borrados' }), 200
 
 @app.errorhandler(ApiError)
 def handle_exception(err):
