@@ -1,6 +1,6 @@
 import os
 from flask import request
-from ..errors.errors import ApiError, TokenNotProvidedError, InvalidTokenError
+from errors.errors import ApiError, TokenNotProvidedError, InvalidTokenError
 
 
 class CheckTokenCommand:
