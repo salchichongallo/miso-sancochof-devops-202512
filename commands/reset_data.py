@@ -1,5 +1,5 @@
-from ..model.db import db
-from ..model.blacklist import Blacklist
+from model.db import db
+from model.blacklist import Blacklist
 
 
 class ResetData():

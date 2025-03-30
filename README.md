@@ -42,6 +42,16 @@ flask run
 docker compose up
 ```
 
+
+### Desplegando en AWS
+
+Crear `.zip` con el contenido de la carpeta y subirlo al entorno de EB.
+
+```sh
+zip -r deploy.zip . -x "*.git*" "__pycache__/*" "env/*" "*.venv/*" "*.DS_Store"
+```
+
+
 #### Integrantes
 
 - Jhorman Galindo

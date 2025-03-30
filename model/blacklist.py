@@ -1,8 +1,8 @@
 from  sqlalchemy  import  Column, String
-from .model import Model, Base
+from model.model import Model, Base
 from sqlalchemy.dialects.postgresql import UUID
 from marshmallow import Schema, fields, validate, ValidationError
-from ..errors.errors import ParamError
+from errors.errors import ParamError
 
 
 class Blacklist(Model, Base):
