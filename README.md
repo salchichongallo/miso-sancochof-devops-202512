@@ -31,7 +31,7 @@ Copie el archivo `.env.template` y renómbrelo `.env.development`. Luego asigne 
 5. Levantar aplicación:
 
 ```sh
-flask run
+flask --app application run
 ```
 
 #### Desde Docker
