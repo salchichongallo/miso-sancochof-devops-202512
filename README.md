@@ -1,5 +1,9 @@
 # MISO - Sancochof - DevOps 202512
 
+### Documentación de API
+
+Puede descargar la colección de Postman de la carpeta docs o puede visitar el sitio [API - DevOps - Sanchocof - 202512](https://documenter.getpostman.com/view/14550156/2sB2cPj5ep) para verla en línea.
+
 ### Comenzando
 
 Requisitos: Python 3.10 o superior
@@ -42,6 +46,12 @@ flask --app application run
 docker compose up
 ```
 
+### Probar aplicación
+
+1. Descargue la colección de Postman en la carpeta `docs/` llamada `DevOps - Sanchocof - 202512.postman_collection.json`
+2. Importe la colección desde Postman
+3. Configure las variables de ambiente para la colección
+4. Ahora puede consumir los endpoints
 
 ### Desplegando en AWS
 

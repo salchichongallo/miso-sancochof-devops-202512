@@ -1,0 +1,1270 @@
+{
+	"info": {
+		"_postman_id": "3d1dab27-b279-4b77-988a-594a4e9f7081",
+		"name": "DevOps - Sanchocof - 202512",
+		"description": "Documentación de API para el equipo Sancochof del curso DevOps 202512 - MISO.\n\nAntes de comenzar a usar esta colección, configure las variables de acuerdo al ambiente donde vaya a trabajar. Por defecto, las variables tienen valores para trabajar en un entorno local.\n\nCada petición después de ejecutarse contiene un conjunto de post-scripts que se encargan de validar si la respuesta es la esperada.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14550156",
+		"_collection_link": "https://miso77-4323.postman.co/workspace/Software-en-la-nube---MISO~56ba599b-7a03-427d-a82f-f98b2b2505f1/collection/14550156-3d1dab27-b279-4b77-988a-594a4e9f7081?action=share&source=collection_link&creator=14550156"
+	},
+	"item": [
+		{
+			"name": "Resetear datos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"const json = pm.response.json();",
+							"",
+							"pm.test(\"El código de estado es 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Menssaje exitoso\", function () {",
+							"    pm.expect(json.message).to.equal(\"Todos los datos han sido borrados\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{apiUrl}}/reset",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"reset"
+					]
+				},
+				"description": "**Endpoint para restablecer la base de datos**  \n  \nEste endpoint elimina todos los registros de la única tabla en la base de datos, restaurándola a su estado inicial. Se debe usar con precaución, ya que esta acción es irreversible."
+			},
+			"response": [
+				{
+					"name": "Resetear datos",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{apiUrl}}/reset",
+							"host": [
+								"{{apiUrl}}"
+							],
+							"path": [
+								"reset"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"message\": \"Todos los datos han sido borrados\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Ping",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{apiUrl}}/ping",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"ping"
+					]
+				},
+				"description": "Comprueba el estado del microservicio. Retorna \"pong\" cuando el microservicio activo."
+			},
+			"response": [
+				{
+					"name": "Pong",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{apiUrl}}/ping",
+							"host": [
+								"{{apiUrl}}"
+							],
+							"path": [
+								"ping"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.1.3 Python/3.10.16"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 29 Mar 2025 01:00:49 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "4"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "pong"
+				}
+			]
+		},
+		{
+			"name": "Bloquear correo - Éxito",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const json = pm.response.json();",
+							"",
+							"pm.collectionVariables.set(\"currentEmail\", json.data.email);",
+							"",
+							"pm.test(\"El correo se añade con exito\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(pm.response.text()).to.include(\"exitosamente\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"app_uuid\": \"{{$randomUUID}}\",\n    \"blocked_reason\": \"{{$randomWords}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiUrl}}/blacklists",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"blacklists"
+					]
+				},
+				"description": "Permite agregar un email a la lista negra global de la organización. Se envía una cabecera HTTP con el token de autenticación. Ver variable de colección `secretToken`"
+			},
+			"response": [
+				{
+					"name": "Respuesta - Bloquear correo - Éxito",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"app_uuid\": \"{{$randomUUID}}\",\n    \"blocked_reason\": \"{{$randomWords}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apiUrl}}/blacklists",
+							"host": [
+								"{{apiUrl}}"
+							],
+							"path": [
+								"blacklists"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.1.3 Python/3.10.16"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 29 Mar 2025 01:03:53 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "303"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"app_uuid\": \"5e570232-c757-496e-a570-ea6d373d463d\",\n        \"blocked_reason\": \"Carolina coherent payment Colorado primary\",\n        \"created_at\": \"2025-03-29T01:03:53.124747\",\n        \"email\": \"Madalyn.Jerde56@yahoo.com\",\n        \"id\": \"1aa13b4a-4e85-440e-949b-a52590b2f2a7\",\n        \"ip\": \"172.19.0.1\"\n    },\n    \"message\": \"Cuenta creada exitosamente.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Check email - Éxito - Email existente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"const json = pm.response.json();",
+							"",
+							"pm.test(\"El campo 'is_blacklisted' es true\", function () {",
+							"    pm.expect(json.is_blacklisted).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"El código de estado es 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{apiUrl}}/blacklists/{{currentEmail}}",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"blacklists",
+						"{{currentEmail}}"
+					]
+				},
+				"description": "**Verificación de correo en lista negra**\n\nEste endpoint permite verificar si un correo electrónico está en la lista negra. Se debe proporcionar un **Bearer Token** para la autenticación.\n\n- **URL:** `{{apiUrl}}/blacklists/{string:email}`\n    \n- **Método:** `GET`\n    \n- **Autenticación:** Requiere **Bearer Token**\n    \n- **Respuesta exitosa:** Retorna un estado de éxito si el correo electrónico existe en la lista negra."
+			},
+			"response": [
+				{
+					"name": "Check email - Éxito - Email existente",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{apiUrl}}/blacklists/Charlotte29@gmail.com",
+							"host": [
+								"{{apiUrl}}"
+							],
+							"path": [
+								"blacklists",
+								"Charlotte29@gmail.com"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"is_blacklisted\": true,\n    \"reason\": \"Gorgeous Bacon revolutionary\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Check email - Fallo - Sin token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Petición requiere token\", function () {",
+							"    pm.response.to.have.status(403);",
+							"    pm.expect(pm.response.text()).to.include(\"not provided\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{apiUrl}}/blacklists/{{currentEmail}}",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"blacklists",
+						"{{currentEmail}}"
+					]
+				},
+				"description": "**Verificación de correo en lista negra FALLO sin token**\n\nEste endpoint permite verificar si un correo electrónico está en la lista negra. Se debe proporcionar un **Bearer Token** para la autenticación.\n\n- **URL:** `{{apiUrl}}/blacklists/{string:email}`\n    \n- **Método:** `GET`\n    \n- **Autenticación:** Requiere **Bearer Token**\n    \n- **Error sin token:** Si no se proporciona un **Bearer Token**, el endpoint devolverá un error de autenticación, impidiendo el acceso."
+			},
+			"response": [
+				{
+					"name": "Check email - Fallo - Sin token",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:5000/blacklists/",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"blacklists",
+								""
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"message\": \"Token not provided.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Check email - Fallo - Token inválido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Petición requiere token válido\", function () {",
+							"    pm.response.to.have.status(401);",
+							"    pm.expect(pm.response.text()).to.include(\"Invalid token\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "aaaaaaa",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{apiUrl}}/blacklists/{{currentEmail}}",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"blacklists",
+						"{{currentEmail}}"
+					]
+				},
+				"description": "**Verificación de correo en lista negra**\n\nEste endpoint permite verificar si un correo electrónico está en la lista negra. Se debe proporcionar un **Bearer Token** válido para la autenticación.\n\n- **URL:** `{{apiUrl}}/blacklists/{string:email}`\n    \n- **Método:** `GET`\n    \n- **Autenticación:** Requiere **Bearer Token** válido\n    \n- **Error por token inválido:** Si el **Bearer Token** es inválido o expirado, el endpoint devolverá un error de autenticación, impidiendo el acceso."
+			},
+			"response": [
+				{
+					"name": "Check email - Fallo - Token inválido",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{apiUrl}}/blacklists/{{currentEmail}}",
+							"host": [
+								"{{apiUrl}}"
+							],
+							"path": [
+								"blacklists",
+								"{{currentEmail}}"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"message\": \"Invalid token.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Check email - Éxito - Email NO existente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"const json = pm.response.json();",
+							"",
+							"pm.test(\"El campo 'is_blacklisted' es False\", function () {",
+							"    pm.expect(json.is_blacklisted).to.be.false;",
+							"});",
+							"",
+							"pm.test(\"El código de estado es 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"La razón es Email no encontrado\", function () {",
+							"    pm.expect(json.reason).to.equal(\"Email no encontrado\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{apiUrl}}/blacklists/prueba@email.com",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"blacklists",
+						"prueba@email.com"
+					]
+				},
+				"description": "**Verificación de correo en lista negra**\n\nEste endpoint permite verificar si un correo electrónico está en la lista negra. Se debe proporcionar un **Bearer Token** válido para la autenticación.\n\n- **URL:** `{{apiUrl}}/blacklists/{string:email}`\n    \n- **Método:** `GET`\n    \n- **Autenticación:** Requiere **Bearer Token** válido\n    \n- **Respuesta exitosa (email NO existente):** Retorna un estado de éxito indicando que el correo electrónico no se encuentra en la lista negra."
+			},
+			"response": [
+				{
+					"name": "Check email - Éxito - Email NO existente",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{apiUrl}}/blacklists/prueba@email.com",
+							"host": [
+								"{{apiUrl}}"
+							],
+							"path": [
+								"blacklists",
+								"prueba@email.com"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"is_blacklisted\": false,\n    \"reason\": \"Email no encontrado\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Check email - Fallo - Email incorrecto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"const json = pm.response.json();",
+							"",
+							"pm.test(\"El código de estado es 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Mensaje de email incorrecto\", function () {",
+							"    pm.expect(json.message).to.equal(\"email: Not a valid email address.\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{apiUrl}}/blacklists/1234",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"blacklists",
+						"1234"
+					]
+				},
+				"description": "**Verificación de correo en lista negra**\n\nEste endpoint permite verificar si un correo electrónico está en la lista negra. Se debe proporcionar un **Bearer Token** válido para la autenticación.\n\n- **URL:** `{{apiUrl}}/blacklists/{string:email}`\n    \n- **Método:** `GET`\n    \n- **Autenticación:** Requiere **Bearer Token** válido\n    \n- **Error por email incorrecto:** Si el formato del correo electrónico es inválido o no cumple con la estructura esperada, el endpoint devolverá un error de solicitud incorrecta (**400 Bad Request**)."
+			},
+			"response": [
+				{
+					"name": "Check email - Fallo - Email incorrecto",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{apiUrl}}/blacklists/1234",
+							"host": [
+								"{{apiUrl}}"
+							],
+							"path": [
+								"blacklists",
+								"1234"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"message\": \"email: Not a valid email address.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Bloquear correo - Fallo - Sin token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Petición requiere token\", function () {",
+							"    pm.response.to.have.status(403);",
+							"    pm.expect(pm.response.text()).to.include(\"not provided\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"app_uuid\": \"{{$randomUUID}}\",\n    \"blocked_reason\": \"{{$randomWords}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiUrl}}/blacklists",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"blacklists"
+					]
+				},
+				"description": "Intenta agregar un email a la lista negra pero sin enviar el token de autenticación.\n\nEste endpoint es un caso de prueba donde se valida la presencia del token de autenticación en la cabecera Authorization."
+			},
+			"response": [
+				{
+					"name": "Respuesta - Bloquear correo - Fallo - Sin token",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"app_uuid\": \"{{$randomUUID}}\",\n    \"blocked_reason\": \"{{$randomWords}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apiUrl}}/blacklists",
+							"host": [
+								"{{apiUrl}}"
+							],
+							"path": [
+								"blacklists"
+							]
+						}
+					},
+					"status": "FORBIDDEN",
+					"code": 403,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.1.3 Python/3.10.16"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 29 Mar 2025 01:08:30 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "34"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Token not provided.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Bloquear correo - Fallo - Token inválido",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Petición requiere token válido\", function () {",
+							"    pm.response.to.have.status(401);",
+							"    pm.expect(pm.response.text()).to.include(\"Invalid token\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "invalid",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"app_uuid\": \"{{$randomUUID}}\",\n    \"blocked_reason\": \"{{$randomWords}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiUrl}}/blacklists",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"blacklists"
+					]
+				},
+				"description": "Intenta agregar un email a la lista negra pero enviando un token de autenticación NO válido.\n\nEste endpoint es un caso de prueba se valida que el token de autenticación enviado sea el esperado."
+			},
+			"response": [
+				{
+					"name": "Respuesta - Bloquear correo - Fallo - Token inválido",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"app_uuid\": \"{{$randomUUID}}\",\n    \"blocked_reason\": \"{{$randomWords}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apiUrl}}/blacklists",
+							"host": [
+								"{{apiUrl}}"
+							],
+							"path": [
+								"blacklists"
+							]
+						}
+					},
+					"status": "UNAUTHORIZED",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.1.3 Python/3.10.16"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 29 Mar 2025 01:08:44 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "29"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Invalid token.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Bloquear correo - Fallo - Duplicado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"No se puede bloquear un email ya bloqueado\", function () {",
+							"    pm.response.to.have.status(409);",
+							"    pm.expect(pm.response.text()).to.include(\"duplicado\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{currentEmail}}\",\n    \"app_uuid\": \"{{$randomUUID}}\",\n    \"blocked_reason\": \"{{$randomWords}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiUrl}}/blacklists",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"blacklists"
+					]
+				},
+				"description": "Intenta agregar un email previamente agregado a la lista negra.\n\nEste es un caso de prueba para asegurar que un email solo puede ser agregado una sola vez."
+			},
+			"response": [
+				{
+					"name": "Respuesta - Bloquear correo - Fallo - Duplicado",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{currentEmail}}\",\n    \"app_uuid\": \"{{$randomUUID}}\",\n    \"blocked_reason\": \"{{$randomWords}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apiUrl}}/blacklists",
+							"host": [
+								"{{apiUrl}}"
+							],
+							"path": [
+								"blacklists"
+							]
+						}
+					},
+					"status": "CONFLICT",
+					"code": 409,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.1.3 Python/3.10.16"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 29 Mar 2025 01:09:01 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "72"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"No se pudo crear la cuenta. Está duplicado el email.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Bloquear correo - Fallo - Faltan campos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Valida app_uuid faltante\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.expect(pm.response.text()).to.include(\"required field\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{$randomEmail}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiUrl}}/blacklists",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"blacklists"
+					]
+				},
+				"description": "Intenta agregar un email a la lista negra sin enviar el campo app_uuid en el body de la petición. Dicho campo es requerido y debe tener un formato UUID.\n\nEste es un caso de prueba para validar la completitud de la petición."
+			},
+			"response": [
+				{
+					"name": "Respuesta - Bloquear correo - Fallo - Faltan campos",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{$randomEmail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apiUrl}}/blacklists",
+							"host": [
+								"{{apiUrl}}"
+							],
+							"path": [
+								"blacklists"
+							]
+						}
+					},
+					"status": "BAD REQUEST",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.1.3 Python/3.10.16"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 29 Mar 2025 01:09:14 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "57"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"app_uuid: Missing data for required field.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Bloquear correo - Éxito - Sin razón de bloqueo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const json = pm.response.json();",
+							"",
+							"pm.collectionVariables.set(\"currentEmail\", json.data.email);",
+							"",
+							"pm.test(\"El correo se añade sin razón de bloqueo\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(json.data.blocked_reason).to.be.null;",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"app_uuid\": \"{{$randomUUID}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiUrl}}/blacklists",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"blacklists"
+					]
+				},
+				"description": "Permite agregar un email a la lista negra global de la organización sin enviar la razón de bloqueo.\n\nEste endpoint omite intencionalmente el campo `blocked_reason` para validar que la petición puede procesarse exitosamente sin dicho campo."
+			},
+			"response": [
+				{
+					"name": "Respuesta - Bloquear correo - Éxito - Sin razón de bloqueo",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"app_uuid\": \"{{$randomUUID}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apiUrl}}/blacklists",
+							"host": [
+								"{{apiUrl}}"
+							],
+							"path": [
+								"blacklists"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.1.3 Python/3.10.16"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 29 Mar 2025 01:09:31 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "262"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"app_uuid\": \"7be3aa57-b187-4ced-b9b0-8c0f4f4baab1\",\n        \"blocked_reason\": null,\n        \"created_at\": \"2025-03-29T01:09:31.366818\",\n        \"email\": \"Darwin_Bradtke@yahoo.com\",\n        \"id\": \"20059eaa-6b4a-426b-b1ed-a9a63fe57222\",\n        \"ip\": \"172.19.0.1\"\n    },\n    \"message\": \"Cuenta creada exitosamente.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Bloquear correo - Fallo - Email inválido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Valida formato email\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.expect(pm.response.text()).to.include(\"Not a valid email\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{$randomWord}}\",\n    \"app_uuid\": \"{{$randomUUID}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiUrl}}/blacklists",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"blacklists"
+					]
+				},
+				"description": "Intenta agregar un email inválido a la lista negra\n\nEste es un caso de prueba para validar que los campos de la petición HTTP están siendo validado correctamente."
+			},
+			"response": [
+				{
+					"name": "Respuesta - Bloquear correo - Fallo - Email inválido",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{$randomNoun}}\",\n    \"app_uuid\": \"{{$randomUUID}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apiUrl}}/blacklists",
+							"host": [
+								"{{apiUrl}}"
+							],
+							"path": [
+								"blacklists"
+							]
+						}
+					},
+					"status": "BAD REQUEST",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.1.3 Python/3.10.16"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 29 Mar 2025 01:09:23 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "48"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"email: Not a valid email address.\"\n}"
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{secretToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "apiUrl",
+			"value": "127.0.0.1:5000",
+			"type": "string"
+		},
+		{
+			"key": "secretToken",
+			"value": "qwerty",
+			"type": "string"
+		},
+		{
+			"key": "currentEmail",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
