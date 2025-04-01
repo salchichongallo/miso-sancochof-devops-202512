@@ -31,7 +31,7 @@ Copie el archivo `.env.template` y renómbrelo `.env.development`. Luego asigne 
 5. Levantar aplicación:
 
 ```sh
-flask run
+flask --app application run
 ```
 
 #### Desde Docker
@@ -41,6 +41,16 @@ flask run
 ```sh
 docker compose up
 ```
+
+
+### Desplegando en AWS
+
+Crear `.zip` con el contenido de la carpeta y subirlo al entorno de EB.
+
+```sh
+zip -r deploy.zip . -x "*.git*" "__pycache__/*" "env/*" "*.venv/*" "*.DS_Store"
+```
+
 
 #### Integrantes
 

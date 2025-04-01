@@ -1,7 +1,7 @@
 from sqlalchemy.exc import IntegrityError
-from ..model.db import db
-from ..model.blacklist import Blacklist
-from ..errors.errors import DuplicatedEmailError
+from model.db import db
+from model.blacklist import Blacklist
+from errors.errors import DuplicatedEmailError
 
 
 class BlockEmailCommand:
