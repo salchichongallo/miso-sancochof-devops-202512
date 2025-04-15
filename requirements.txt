@@ -6,3 +6,7 @@ SQLAlchemy==2.0.31
 Flask-Cors==4.0.1
 python-dotenv==1.1.0
 psycopg2-binary == 2.9.10
+
+pytest == 7.4.4
+pytest-mock == 3.14.0
+pytest-env == 0.8.2
