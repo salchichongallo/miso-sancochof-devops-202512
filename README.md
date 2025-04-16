@@ -53,6 +53,14 @@ docker compose up
 3. Configure las variables de ambiente para la colección
 4. Ahora puede consumir los endpoints
 
+### Ejecutar pruebas unitarias
+
+Puede ejecutar las pruebas unitarias con el siguiente comando:
+
+```sh
+pytest --cov-fail-under=70 --cov=. -s --verbose tests/
+```
+
 ### Desplegando en AWS
 
 Crear `.zip` con el contenido de la carpeta y subirlo al entorno de EB.
