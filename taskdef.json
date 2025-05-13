@@ -12,7 +12,7 @@
 
       "image": "<IMAGE1_NAME>",
       "essential": true,
-      "name": "container-blacklist-python"
+      "name": "container-blacklist-app"
     }
   ],
 
@@ -20,7 +20,7 @@
     "FARGATE"
   ],
   "networkMode": "awsvpc",
-  "cpu": "512",
-  "memory": "1024",
-  "family": "task-blacklist-app"
+  "cpu": "1024",
+  "memory": "3072",
+  "family": "taskdef-blacklist-app"
 }
