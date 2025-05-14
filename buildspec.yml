@@ -4,34 +4,15 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 816292901557.dkr.ecr.us-east-1.amazonaws.com
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 160811899552.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t sancochoft/blacklist-app .
-      - docker tag sancochoft/blacklist-app:latest 816292901557.dkr.ecr.us-east-1.amazonaws.com/sancochoft/blacklist-app:latest
+      - docker build -t miso-devops .
+      - docker tag miso-devops:latest 160811899552.dkr.ecr.us-east-1.amazonaws.com/miso-devops:latest
   post_build:
     commands:
-      - echo Initializing the Docker image...
-      - echo Build completed on `date`
       - echo Pushing the Docker image
-      - docker push 816292901557.dkr.ecr.us-east-1.amazonaws.com/sancochoft/blacklist-app:latest
-      - echo Writing Image Definitions file...
-      - printf '[{"name":"container-blacklist-app","imageUri":"816292901557.dkr.ecr.us-east-1.amazonaws.com/sancochoft/blacklist-app:latest"}]' > imagedefinitions.json
-      - printf '{"ImageURI":"816292901557.dkr.ecr.us-east-1.amazonaws.com/sancochoft/blacklist-app:latest"}' > imageDetail.json
-      - cat imagedefinitions.json
+      - docker push 160811899552.dkr.ecr.us-east-1.amazonaws.com/miso-devops:latest
 
-artifacts:
-  files:
-    - '**/*'
-    - imagedefinitions.json
-    - imageDetail.json
-  secondary-artifacts:
-    DefinitionArtifact:
-      files:
-        - appspec.json
-        - taskdef.json
-    ImageArtifact:
-      files:
-        - imageDetail.json
