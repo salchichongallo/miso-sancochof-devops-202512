@@ -9,7 +9,7 @@ phases:
         commands:
             - echo Build started on `date`
             - echo Building the Docker image...
-            - docker build -t miso-devops .
+            - docker build --build-arg MI_VARIABLE=$MI_VARIABLE -t miso-devops .
             - docker tag miso-devops:latest 160811899552.dkr.ecr.us-east-1.amazonaws.com/miso-devops:latest
     post_build:
         commands:
