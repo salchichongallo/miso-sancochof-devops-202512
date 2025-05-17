@@ -38,6 +38,11 @@ Copie el archivo `.env.template` y renómbrelo `.env.development`. Luego asigne 
 flask --app application run
 ```
 
+Run with Newrelic:
+```sh
+newrelic-admin run-program flask --app application run
+```
+
 #### Desde Docker
 
 1. Iniciar servicios
