@@ -1,3 +1,5 @@
+ARG MI_VARIABLE="flask-app"
+
 FROM public.ecr.aws/docker/library/python:3.10.17-alpine3.21
 
 WORKDIR /usr/src/app
@@ -16,5 +18,8 @@ COPY . .
 ENV FLASK_RUN_PORT=5000
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_APP=application.py
+
+ENV MI_VARIABLE=${MI_VARIABLE}
+RUN echo "Valor en tiempo de build: $MI_VARIABLE"
 
 CMD ["flask", "run"]
