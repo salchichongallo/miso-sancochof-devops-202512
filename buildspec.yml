@@ -1,18 +1,25 @@
 version: 0.2
 
 phases:
-  pre_build:
-    commands:
-      - echo Logging in to Amazon ECR
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 160811899552.dkr.ecr.us-east-1.amazonaws.com
-  build:
-    commands:
-      - echo Build started on `date`
-      - echo Building the Docker image...
-      - docker build -t miso-devops .
-      - docker tag miso-devops:latest 160811899552.dkr.ecr.us-east-1.amazonaws.com/miso-devops:latest
-  post_build:
-    commands:
-      - echo Pushing the Docker image
-      - docker push 160811899552.dkr.ecr.us-east-1.amazonaws.com/miso-devops:latest
-
+    pre_build:
+        commands:
+            - echo Logging in to Amazon ECR
+            - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 160811899552.dkr.ecr.us-east-1.amazonaws.com
+    build:
+        commands:
+            - echo Build started on `date`
+            - echo Building the Docker image...
+            - docker build -t miso-devops .
+            - docker tag miso-devops:latest 160811899552.dkr.ecr.us-east-1.amazonaws.com/miso-devops:latest
+    post_build:
+        commands:
+        - echo Pushing the Docker image
+        - docker push 160811899552.dkr.ecr.us-east-1.amazonaws.com/miso-devops:latest
+    artifacts:
+        files:
+            - '**/*'
+        secondary-artifacts:
+            DefinitionArtifact:
+                files:
+                    - appspec.json
+                    - taskdef.json
