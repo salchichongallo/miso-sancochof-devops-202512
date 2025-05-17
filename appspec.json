@@ -5,9 +5,9 @@
         "TargetService": {
           "Type": "AWS::ECS::Service",
           "Properties": {
-            "TaskDefinition": "<TASK_DEFINITION>",
+            "TaskDefinition": "arn:aws:ecs:us-east-1:160811899552:task-definition/task-app-python:1",
             "LoadBalancerInfo": {
-              "ContainerName": "container-blacklist-app",
+              "ContainerName": "miso-devops",
               "ContainerPort": 5000
             }
           }

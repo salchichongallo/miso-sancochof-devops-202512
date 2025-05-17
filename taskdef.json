@@ -1,5 +1,5 @@
 {
-  "executionRoleArn": "arn:aws:iam::816292901557:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::160811899552:role/ecsTaskExecutionRole",
   "containerDefinitions": [
     {
       "portMappings": [
@@ -10,9 +10,9 @@
         }
       ],
 
-      "image": "<IMAGE1_NAME>",
+      "image": "miso-devops",
       "essential": true,
-      "name": "container-blacklist-app"
+      "name": "miso-devops"
     }
   ],
 
@@ -22,5 +22,5 @@
   "networkMode": "awsvpc",
   "cpu": "1024",
   "memory": "3072",
-  "family": "taskdef-blacklist-app"
+  "family": "task-app-python"
 }
