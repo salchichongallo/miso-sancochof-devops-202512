@@ -19,7 +19,11 @@ ENV FLASK_RUN_PORT=5000
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_APP=application.py
 
-ENV MI_VARIABLE=${MI_VARIABLE}
-RUN echo "Valor en tiempo de build: $MI_VARIABLE"
+ENV RDS_USERNAME=postgres
+ENV RDS_PASSWORD=miso202512
+ENV RDS_HOSTNAME='miso-database-rds.c4decwyyqfx4.us-east-1.rds.amazonaws.com'
+ENV RDS_PORT=5432
+ENV RDS_DB_NAME=blacklists_db
+ENV SECRET_TOKEN=qwerty
 
 CMD ["flask", "run"]
