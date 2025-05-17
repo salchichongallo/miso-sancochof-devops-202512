@@ -10,4 +10,4 @@ def ping():
 
 @ping_bp.route("/pong")
 def pong():
-    return "ping v2"
+    return "ping"
