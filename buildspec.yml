@@ -15,11 +15,11 @@ phases:
         commands:
         - echo Pushing the Docker image
         - docker push 160811899552.dkr.ecr.us-east-1.amazonaws.com/miso-devops:latest
-    artifacts:
-        files:
-            - '**/*'
-        secondary-artifacts:
-            DefinitionArtifact:
-                files:
-                    - appspec.json
-                    - taskdef.json
+artifacts:
+    files:
+        - '**/*'
+    secondary-artifacts:
+        DefinitionArtifact:
+            files:
+                - appspec.json
+                - taskdef.json
